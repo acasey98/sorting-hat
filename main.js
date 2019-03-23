@@ -5,6 +5,7 @@ const printToDom = (divId, textToPrint) => {
 
 const houseList = ['Gryffindor', 'Ravenclaw', 'Slytherin', 'Hufflepuff'];
 
+const students = [];
 
 const showForm = () =>{
     let domString = '';
@@ -22,11 +23,16 @@ const showForm = () =>{
     document.getElementById('nameInputForm').addEventListener('submit', assignHouse);
 };
 
+const expelStudent = () =>{
+
+};
+
 const assignHouse = () => {
     let domString = '';
     const student = document.getElementById("nameInputForm").value;
     const house = houseList[(getRandomInt(4))];
     console.log( student, house);
+    students.push(student);
     domString += `<div class='col-sm-10 col-md-8 col-xl-3'>`;
     domString += `  <div class="card text-center" style="width: 18rem;">`;
     domString += `      <div class="card-body">`;
@@ -38,6 +44,10 @@ const assignHouse = () => {
     domString += `</div>`;
 
     printToDom('cardArea', domString);
+
+    document.getElementById('expelBtn').addEventListener('click', expelStudent);
+    
+    
     
 };
 
