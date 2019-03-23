@@ -1,9 +1,9 @@
 const printToDom = (divId, textToPrint) => {
     const selectedDiv = document.getElementById(divId);
-    selectedDiv.innerHTML = textToPrint;
+    selectedDiv.innerHTML += textToPrint;
 };
 
-const houseList = ['Griffindor', 'Ravenclaw', 'Slytherin', 'Hufflepuff'];
+const houseList = ['Gryffindor', 'Ravenclaw', 'Slytherin', 'Hufflepuff'];
 
 
 const showForm = () =>{
@@ -16,11 +16,10 @@ const showForm = () =>{
     domString +=     `<button type="button" class="btn btn-primary" id='sortBtn'>Sort</button>`;
     domString +=    `</form>`;
     
-    printToDom('lol', domString);
+    printToDom('nameform', domString);
 
     document.getElementById('sortBtn').addEventListener('click', assignHouse);
     document.getElementById('nameInputForm').addEventListener('submit', assignHouse);
-    document.getElementById('jumbotron-id').innerHTML = '';
 };
 
 const assignHouse = () => {
@@ -28,12 +27,23 @@ const assignHouse = () => {
     const student = document.getElementById("nameInputForm").value;
     const house = houseList[(getRandomInt(4))];
     console.log( student, house);
+    domString += `<div class='col-sm-10 col-md-8 col-xl-3'>`;
+    domString += `  <div class="card text-center" style="width: 18rem;">`;
+    domString += `      <div class="card-body">`;
+    domString += `          <h5 class="card-title">${student}</h5>`;
+    domString += `          <p class="card-text">${house}</p>`;
+    domString += `          <button class="btn btn-secondary" id='expelBtn'>Expel</button>`;
+    domString += `      </div>`;
+    domString += `  </div>`;
+    domString += `</div>`;
+
+    printToDom('cardArea', domString);
     
-}
+};
 
 const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
-  };
+};
 
 
 const buttonEvents = () =>{
