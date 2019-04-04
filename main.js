@@ -1,3 +1,5 @@
+let studentCounter = 1;
+
 const printToDom = (divId, textToPrint) => {
     const selectedDiv = document.getElementById(divId);
     selectedDiv.innerHTML += textToPrint;
@@ -6,6 +8,42 @@ const printToDom = (divId, textToPrint) => {
 const houseList = ['Gryffindor', 'Ravenclaw', 'Slytherin', 'Hufflepuff'];
 
 const students = [];
+
+const addDeleteEvents = () =>{
+    const deleteButtons = document.getElementsByClassName('deleteButton');
+    for(let i=0; i<deleteButtons.length; i++){
+        deleteButtons[i].addEventListener('click', deleteFunction);
+    }
+  };
+
+  
+  const addStudent=(e)=>{
+    e.preventDefault();
+    const inputText = document.getElementById("nameInputForm").value;
+    const newStudent = {
+        name: inputText,
+        house: houseList[(getRandomInt(4))], 
+        id: studentCounter
+    };
+    students.push(newStudent);
+    studentCounter++;
+    //console.log(inputText);
+    //printToDom('ingredient-container', inputText); 
+    assignHouse();
+    
+    nameInputForm.value = '';
+};
+
+  const deleteFunction = (e) =>{
+    const buttonId = e.target.id;
+    students.forEach((student, index)=>{
+        if(student.id === buttonId){
+        students.splice(index, 1);
+        };
+    });
+    assignHouse();
+    addDeleteEvents();
+};
 
 const showForm = () =>{
     let domString = '';
@@ -19,36 +57,32 @@ const showForm = () =>{
     
     printToDom('nameform', domString);
 
-    document.getElementById('sortBtn').addEventListener('click', assignHouse);
-    document.getElementById('nameInputForm').addEventListener('submit', assignHouse);
-};
-
-const expelStudent = () =>{
-
+    document.getElementById('sortBtn').addEventListener('click', addStudent);
+    document.getElementById('nameInputForm').addEventListener('submit', addStudent);
 };
 
 const assignHouse = () => {
     let domString = '';
-    const student = document.getElementById("nameInputForm").value;
-    const house = houseList[(getRandomInt(4))];
-    console.log( student, house);
-    students.push(student);
-    domString += `<div class='col-sm-10 col-md-8 col-xl-3'>`;
+    document.getElementById('cardArea').innerHTML = '';
+    
+    
+    //console.log( student, house);
+    students.forEach((student) => {
+        
+    domString += `<div id='' class='col-sm-10 col-md-8 col-xl-3'>`;
     domString += `  <div class="card text-center" style="width: 18rem;">`;
     domString += `      <div class="card-body">`;
-    domString += `          <h5 class="card-title">${student}</h5>`;
-    domString += `          <p class="card-text">${house}</p>`;
-    domString += `          <button class="btn btn-secondary" id='expelBtn'>Expel</button>`;
-    domString += `      </div>`;
+    domString += `          <h5 class="card-title">${student.name}</h5>`;
+    domString += `          <p class="card-text">${student.house}</p>`;
+    domString += `          <button class="deleteButton" id='${student.id}' onclick=>Expel</button>`;
+    domString += `     </div>`;
     domString += `  </div>`;
     domString += `</div>`;
-
+    
+    
+});
     printToDom('cardArea', domString);
-
-    document.getElementById('expelBtn').addEventListener('click', expelStudent);
-    
-    
-    
+    addDeleteEvents();
 };
 
 const getRandomInt = (max) => {
